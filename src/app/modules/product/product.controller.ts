@@ -13,6 +13,11 @@ const createProduct = async (req: Request, res: Response) => {
     });
   } catch (err) {
     console.log(err);
+    res.status(500).json({
+      success: true,
+      message: "An error Occured",
+      error: err,
+    });
   }
 };
 
@@ -27,6 +32,11 @@ const getAllProducts = async (req: Request, res: Response) => {
     });
   } catch (err) {
     console.log(err);
+    res.status(500).json({
+      success: true,
+      message: "An error Occured",
+      error: err,
+    });
   }
 };
 
@@ -42,6 +52,11 @@ const getSingleProduct = async (req: Request, res: Response) => {
     });
   } catch (err) {
     console.log(err);
+    res.status(500).json({
+      success: true,
+      message: "An error Occured",
+      error: err,
+    });
   }
 };
 export const productControllers = {
