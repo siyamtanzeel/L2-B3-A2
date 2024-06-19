@@ -15,11 +15,7 @@ const createProduct = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Oops! Something went wrong",
-      error: err,
-    });
+    console.log(err);
   }
 };
 
@@ -33,11 +29,7 @@ const getAllProducts = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Oops! Something went wrong",
-      error: err,
-    });
+    console.log(err);
   }
 };
 
@@ -52,11 +44,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Oops! Something went wrong",
-      error: err,
-    });
+    console.log(err);
   }
 };
 export const productControllers = {
