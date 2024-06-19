@@ -9,7 +9,7 @@ const getAllStudentsFromDB = async () => {
   const result = await ProductModel.find();
   return result;
 };
-const getSingleProductFromDB = async (id: any) => {
+const getSingleProductFromDB = async (id: string) => {
   const result = await ProductModel.findById(id);
   return result;
 };

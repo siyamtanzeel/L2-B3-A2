@@ -1,4 +1,3 @@
-import { Schema, model, connect } from "mongoose";
 export type Variants = {
   type: string;
   value: string;

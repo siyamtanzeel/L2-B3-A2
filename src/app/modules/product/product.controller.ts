@@ -1,18 +1,25 @@
 import { Request, Response } from "express";
 import { productServices } from "./product.service";
+import { z } from "zod";
+import productValidationSchema from "./product.validation";
 
 //creating a product
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const product = req.body;
-    const result = await productServices.createProductIntoDB(product);
+    const productData = req.body;
+    const zodParsedData = productValidationSchema.parse(productData);
+    const result = await productServices.createProductIntoDB(zodParsedData);
     res.status(200).json({
       success: true,
       message: "product created successfully",
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: "Oops! Something went wrong",
+      error: err,
+    });
   }
 };
 
@@ -26,7 +33,11 @@ const getAllProducts = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: "Oops! Something went wrong",
+      error: err,
+    });
   }
 };
 
@@ -41,7 +52,11 @@ const getSingleProduct = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: "Oops! Something went wrong",
+      error: err,
+    });
   }
 };
 export const productControllers = {
