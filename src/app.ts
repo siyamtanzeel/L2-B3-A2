@@ -13,8 +13,9 @@ app.use(express.json());
 //application routes
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
-app.use(notFoundHandler);
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
+  res.json({ message: "Hello World!" });
 });
+//No routes found handler
+app.use(notFoundHandler);
 export default app;
