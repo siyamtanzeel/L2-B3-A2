@@ -10,20 +10,12 @@ const inventoryValidationSchema = {
     invalid_type_error: "inStock must be a boolean",
   }),
 };
-const variantsValidationSchema = z
-  .object({
-    type: z
-      .string({
-        required_error: "Variant type is required",
-        invalid_type_error: "Variant type must be a string",
-      })
-      .trim(),
-    value: z.string({
-      required_error: "Variant Value is required",
-      invalid_type_error: "Variant Value must be a string",
-    }),
+const variantsValidationSchema = z.array(
+  z.object({
+    type: z.string().min(1, "Variant type is required"),
+    value: z.string().min(1, "Variant value is required"),
   })
-  .strict();
+);
 const productValidationSchema = z
   .object({
     name: z
@@ -38,10 +30,7 @@ const productValidationSchema = z
         invalid_type_error: "Description must be a string",
       })
       .trim(),
-    price: z.number({
-      required_error: "Price is required",
-      invalid_type_error: "Price must be a number",
-    }),
+    price: z.number().gt(0, "price must be higher than 0"),
     category: z
       .string({
         required_error: "Category is required",
@@ -51,7 +40,8 @@ const productValidationSchema = z
     tags: z
       .array(
         z.string({
-          message: "tag must be a string",
+          invalid_type_error: "tag must be a string",
+          required_error: "tag must be provided",
         })
       )
       .nonempty({ message: "There must be at least one tag" }),
