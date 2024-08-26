@@ -1,9 +1,9 @@
-import { Product, TProduct } from "./product.interface";
+import { TProduct } from "./product.interface";
 import { ProductModel } from "./product.model";
 import productValidationSchema from "./product.validation";
 
 //adding a product to database
-const createProductIntoDB = async (product: Product) => {
+const createProductIntoDB = async (product: TProduct) => {
   const result = await ProductModel.create(product);
   return result;
 };
