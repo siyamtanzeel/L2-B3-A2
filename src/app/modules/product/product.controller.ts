@@ -11,7 +11,7 @@ const createProduct = async (req: Request, res: Response) => {
     const result = await productServices.createProductIntoDB(zodParsedData); //inserting valid data into DB
     res.status(200).json({
       success: true,
-      message: "product created successfully",
+      message: "Product created successfully!",
       data: result,
     }); // response after succesfully inserting data
   } catch (err) {
@@ -26,10 +26,10 @@ const createProduct = async (req: Request, res: Response) => {
 //retriving all products
 const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const result = await productServices.getAllStudentsFromDB(); // fetching all products from DB
+    const result = await productServices.getAllProductsFromDB(); // fetching all products from DB
     res.status(200).json({
       success: true,
-      message: "Products Fetched Successfully",
+      message: "Products fetched successfully!",
       data: result,
     }); //response if products fetched
   } catch (err) {
@@ -50,7 +50,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
       //When product is found
       res.status(200).json({
         success: true,
-        message: "Product Fetched Successfully",
+        message: "Product fetched successfully!",
         data: result,
       });
     } else {
@@ -74,22 +74,47 @@ const updateSingleProduct = async (req: Request, res: Response) => {
   try {
     const id = req.params.productId;
     const product = req.body;
-    const zodParsedData = productValidationSchema.parse(product);
+    const zodParsedData = productValidationSchema.parse(product); // validating the product by zod
     const result = await productServices.updateSingleProductInDB(
       id,
       zodParsedData
     );
     res.status(200).json({
       success: true,
-      message: "successfully updated the product",
+      message: "Product updated successfully!",
       data: result,
-    });
+    }); // response if product updated
   } catch (err) {
     res.status(500).json({
       success: false,
       message: "Could not update the product",
       error: err,
-    });
+    }); // response if failed to update
+  }
+};
+//deleting a specific product
+const deleteSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.productId;
+    const result = await productServices.deleteSingleProductFromDB(id);
+    if (result.deletedCount > 0) {
+      res.status(200).json({
+        success: true,
+        message: "Product deleted successfully!",
+        data: null,
+      }); // response if product deleted
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Could not delete the product",
+      }); // response if failed to delete
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Could not delete the product",
+      error: err,
+    }); // response if failed to delete
   }
 };
 export const productControllers = {
@@ -97,4 +122,5 @@ export const productControllers = {
   getAllProducts,
   getSingleProduct,
   updateSingleProduct,
+  deleteSingleProduct,
 };
