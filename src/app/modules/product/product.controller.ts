@@ -41,18 +41,20 @@ const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-//retriving a single product
+//retriving a single product using ID
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const id = req.params.productId;
     const result = await productServices.getSingleProductFromDB(id);
     if (result) {
+      //When product is found
       res.status(200).json({
         success: true,
         message: "Product Fetched Successfully",
         data: result,
       });
     } else {
+      //When no product is found
       res.status(500).json({
         success: false,
         message: "Product Not Found",
@@ -67,8 +69,32 @@ const getSingleProduct = async (req: Request, res: Response) => {
     });
   }
 };
+//updating a specific product by ID
+const updateSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.productId;
+    const product = req.body;
+    const zodParsedData = productValidationSchema.parse(product);
+    const result = await productServices.updateSingleProductInDB(
+      id,
+      zodParsedData
+    );
+    res.status(200).json({
+      success: true,
+      message: "successfully updated the product",
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Could not update the product",
+      error: err,
+    });
+  }
+};
 export const productControllers = {
   createProduct,
   getAllProducts,
   getSingleProduct,
+  updateSingleProduct,
 };

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const inventoryValidationSchema = {
+const inventoryValidationSchema = z.object({
   quantity: z.number({
     required_error: "Quantity is required",
     invalid_type_error: "Quantity must be a number",
@@ -9,7 +9,7 @@ const inventoryValidationSchema = {
     required_error: "inStock info is required",
     invalid_type_error: "inStock must be a boolean",
   }),
-};
+});
 const variantsValidationSchema = z.array(
   z.object({
     type: z.string().min(1, "Variant type is required"),
@@ -45,10 +45,8 @@ const productValidationSchema = z
         })
       )
       .nonempty({ message: "There must be at least one tag" }),
-    variants: z
-      .array(variantsValidationSchema)
-      .nonempty({ message: "There must be at least one variant" }),
-    inventory: z.object(inventoryValidationSchema),
+    variants: variantsValidationSchema,
+    inventory: inventoryValidationSchema,
   })
   .strict();
 export default productValidationSchema;
