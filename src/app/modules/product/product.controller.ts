@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { productServices } from "./product.service";
-import { z } from "zod";
 import productValidationSchema from "./product.validation";
 
 //creating a product
@@ -33,7 +32,7 @@ const getAllProducts = async (req: Request, res: Response) => {
       searchTerm as string
     ); // fetching products from DB
 
-    //response of a specific products were searched for
+    //response if specific products were searched for
     if (searchTerm) {
       //response if searched products were found
       if (result.length > 0) {
